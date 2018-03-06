@@ -12,9 +12,7 @@ module.exports = function(grunt) {
                     sourcemap: 'none',
                 },
                 files: {
-                    'assets/public/css/PREFIX-style.css' : 'assets/scss/public.scss',
-                    'assets/public/css/flex-grid.css' : 'assets/scss/flex-grid.scss',
-                    'assets/admin/css/PREFIX-admin-style.css' : 'assets/scss/admin.scss'
+                    'assets/dist/css/wpps_style.css' : 'assets/src/scss/style.scss'
                 }
             }
         },
@@ -22,17 +20,37 @@ module.exports = function(grunt) {
             options: {
                 processors: [
                     require('autoprefixer'),
+                    // require('cssnano')() // minify the result
                 ]
             },
             dist: {
-                src: 'assets/public/css/PREFIX-style.css',
-                src: 'assets/public/css/flex-grid.css',
-                src: 'assets/admin/css/PREFIX-style.css'
+                src: 'assets/dist/css/wpps_style.css'
+            }
+        },
+        concat: {
+            options: {
+                stripBanners: true,
+                banner: 'jQuery(document).ready(function($) {',
+                footer: '});',
+            },
+            dist: {
+                src: ['assets/src/js/_variables.js', 'assets/src/js/_functions.js', 'assets/src/js/_script.js'],
+                dest: 'assets/src/js/build.js',
+            }
+        },
+        uglify: {
+            my_target: {
+                files: {
+                    'assets/dist/js/wpps_script.js': 'assets/src/js/build.js',
+                }
             }
         },
         watch: {
-            files: ['**/*.php', 'assets/scss/**/*.scss'],
-            tasks: ['sass', 'postcss'],
+            options: {
+                livereload: true
+            },
+            files: ['*.php', '**/*.php', 'assets/src/**/*.*'],
+            tasks: ['sass', 'concat', 'postcss', 'uglify'],
         },
         
     });
@@ -41,12 +59,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-concat')
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     
-
     // do the task
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('convert', ['sass']);
+    grunt.registerTask('build-js', ['concat', 'uglify']);
 
 
 };

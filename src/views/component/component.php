@@ -1,0 +1,1 @@
+<p>Your first Component, available from everywhere in the plugin</p>
