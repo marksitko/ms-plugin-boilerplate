@@ -19,9 +19,15 @@ class Controller {
 	/**
 	*
 	*/
+	public $urlParam;
+
+	/**
+	*
+	*/
 	public function __construct() {
 		$this->db = new Database();
 		$this->model = new Model();
+		$this->urlParam = $_GET["site"];
 	}
 
 	/**
@@ -55,12 +61,44 @@ class Controller {
 	/**
 	*
 	*/
+	public function getTemplate($class) {
+
+		$param = $this->getUrlParam();
+
+		if(method_exists( $class, $param ) ) {
+			$class->$param();
+		} else {
+			$this->couldnt_found_template();
+		}
+
+	}
+
+	/**
+	*
+	*/
 	public function lock_template( $dir, $template, $data = array() )  {
 		if( file_exists( $dir . $template . ".php" ) ) {
 			include $dir . $template . ".php";
 		} else {
-			die('View not exist');
+			$this->couldnt_found_template();
 		}
+	}
+
+	/**
+	*
+	*/
+	public function getUrlParam() {
+		if( !isset($this->urlParam) ) {
+			$this->urlParam = 'admin';
+		} 
+		return $this->urlParam;
+	}
+
+	/**
+	*
+	*/
+	private function couldnt_found_template() {
+		die('View not exist');
 	}
 
 }
