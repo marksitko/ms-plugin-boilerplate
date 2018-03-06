@@ -1,10 +1,20 @@
 module.exports = function(grunt) {
 
+    var projectConfig = {
+        'prefix': 'wpps_',
+        'sassDir': 'assets/src/scss/',
+        'cssDir': 'assets/dist/css/',
+        'jsSrc': 'assets/src/js/',
+        'jsDist': 'assets/dist/js/',
+    }
+
+
     // Configure main project settings
     grunt.initConfig({
 
         // Baisc settings about info and plugins
         pkg: grunt.file.readJSON('package.json'),
+        projectConfig: projectConfig,
 
         sass: {
             dist: {
@@ -12,7 +22,7 @@ module.exports = function(grunt) {
                     sourcemap: 'none',
                 },
                 files: {
-                    'assets/dist/css/wpps_style.css' : 'assets/src/scss/style.scss'
+                    '<%= projectConfig.cssDir %><%= projectConfig.prefix %>style.css' : '<%= projectConfig.sassDir %>style.scss'
                 }
             }
         },
@@ -24,7 +34,7 @@ module.exports = function(grunt) {
                 ]
             },
             dist: {
-                src: 'assets/dist/css/wpps_style.css'
+                src: '<%= projectConfig.cssDir %><%= projectConfig.prefix %>style.css'
             }
         },
         concat: {
@@ -34,14 +44,14 @@ module.exports = function(grunt) {
                 footer: '});',
             },
             dist: {
-                src: ['assets/src/js/_variables.js', 'assets/src/js/_functions.js', 'assets/src/js/_script.js'],
-                dest: 'assets/src/js/build.js',
+                src: ['<%= projectConfig.jsSrc %>_variables.js', '<%= projectConfig.jsSrc %>_functions.js', '<%= projectConfig.jsSrc %>_script.js'],
+                dest: '<%= projectConfig.jsSrc %>build.js',
             }
         },
         uglify: {
             my_target: {
                 files: {
-                    'assets/dist/js/wpps_script.js': 'assets/src/js/build.js',
+                    '<%= projectConfig.jsDist %><%= projectConfig.prefix %>script.js': '<%= projectConfig.jsSrc %>build.js',
                 }
             }
         },
@@ -65,6 +75,7 @@ module.exports = function(grunt) {
     // do the task
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('convert', ['sass']);
+    grunt.registerTask('build', ['sass', 'concat', 'postcss', 'uglify']);
     grunt.registerTask('build-js', ['concat', 'uglify']);
 
 
