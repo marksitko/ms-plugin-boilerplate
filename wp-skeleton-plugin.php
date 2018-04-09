@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Skeleton Plugin 
 Plugin URI: https://www.sitko-designing.de
-Description: WP Skeleton Plugin is a MVC-Pattern boilerplate for Plugin development. It requires the the autoload.php file whichs implement the ClassLoader. 
+Description: WP Skeleton Plugin is a MVC-Pattern boilerplate for WordPress-Plugin development. It requires a ClassLoader
 Version: 0.0.1
 Author: Mark Sitko
 Author URI:  https://www.sitko-designing.de

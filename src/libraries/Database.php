@@ -4,9 +4,14 @@ namespace wpps\libraries;
 
 class Database {
 
-	public $connection;
+	/**
+	*
+	*/
+	private $connection;
 
-
+	/**
+	*
+	*/
 	public function __construct() {
 		global $wpdb;
 		$this->connection = $this->connect($wpdb);
@@ -20,7 +25,9 @@ class Database {
 		return $connection;
 	}
 
-
+	/**
+	*
+	*/
 	public function select($query, $output = "OBJECT") {
 
 		$select = $this->connection->get_results($query, $output);
@@ -29,6 +36,9 @@ class Database {
 
 	}
 
+	/**
+	*
+	*/
 	public function selectRow($query) {
 
 		$select = $this->connection->get_row($query);
@@ -37,16 +47,11 @@ class Database {
 
 	}
 
-	public function lastid() {
-		return $this->connection->insert_id;
-	}
-
-
 	/**
 	*
 	*/
-	public function getResults($results) {
-		return $results;
+	public function lastid() {
+		return $this->connection->insert_id;
 	}
 
 
@@ -96,7 +101,6 @@ class Database {
 		return $count;
 
 	}
-
 
 	/**
 	*
