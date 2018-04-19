@@ -44,7 +44,7 @@ module.exports = function(grunt) {
                 footer: '});',
             },
             dist: {
-                src: ['<%= projectConfig.jsSrc %>_variables.js', '<%= projectConfig.jsSrc %>_functions.js', '<%= projectConfig.jsSrc %>_script.js'],
+                src: ['<%= projectConfig.jsSrc %>_variables.js', '<%= projectConfig.jsSrc %>_functions.js', '<%= projectConfig.jsSrc %>_scripts.js'],
                 dest: '<%= projectConfig.jsSrc %>build.js',
             }
         },
