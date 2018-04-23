@@ -1,9 +1,9 @@
 const build = {
-    'plainPrefix': 'mp',
+    'plainPrefix': 'ka',
     get prefix() {
         return `${this.plainPrefix}_`
     },
-    'pluginName': 'myPlugin',
+    'pluginName': 'kennzahlenAdmin',
     get dest() {
         return `./${this.pluginName}/`
     },

@@ -1,10 +1,10 @@
 const configDefault = {
-        'plainPrefix': 'wpps',
+        'plainPrefix': 'mspb',
         get prefix() {
             return `${this.plainPrefix}_`
         },
-        'pluginName': 'Skeleton',
-        'pluginFile': 'wp-skeleton-plugin.php'
+        'pluginName': 'MSPluginBoilerplate',
+        'bootstrapFile': 'ms-plugin-boilerplate.php'
     };
 
 module.exports = configDefault;

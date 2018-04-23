@@ -1,6 +1,6 @@
 <?php
 
-namespace wpps\models;
+namespace mspb\models;
 
 class Model {
 

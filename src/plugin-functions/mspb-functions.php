@@ -1,6 +1,6 @@
 <?php
 
-function wpps_custom_plugin_functions() {
+function mspb_custom_plugin_functions() {
 	return 'Do your custom plugin functions here';
 }
 

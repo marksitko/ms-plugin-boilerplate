@@ -1,6 +1,6 @@
 <?php
 
-namespace wpps\helpers;
+namespace mspb\helpers;
 
 class Helper {
 

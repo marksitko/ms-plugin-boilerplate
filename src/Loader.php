@@ -1,6 +1,6 @@
 <?php
 
-namespace wpps;
+namespace mspb;
 
 class Loader {
 
@@ -82,10 +82,10 @@ class Loader {
 
 		/*
 		if( !wp_style_is( 'font-awesome', 'enqueued' ) ) {
-			wp_enqueue_style( 'font-awesome', WPPS_CSS_URL . 'font-awesome.min.css?v=' . WPPS_VERSION);
+			wp_enqueue_style( 'font-awesome', MSPB_CSS_URL . 'font-awesome.min.css?v=' . MSPB_VERSION);
 		}
 
-		wp_enqueue_style( WPPS_SLUG . 'style', WPPS_CSS_URL . WPPS_SLUG . 'style.css?v=' . WPPS_VERSION);
+		wp_enqueue_style( MSPB_SLUG . 'style', MSPB_CSS_URL . MSPB_SLUG . 'style.css?v=' . MSPB_VERSION);
 		*/
 	}
 
@@ -97,7 +97,7 @@ class Loader {
 		// EXAMPLE 
 
 		/*
-		wp_enqueue_script( WPPS_SLUG . 'backend-script', WPPS_JS_URL . WPPS_SLUG . 'backend-script.min.js?v=' . WPPS_VERSION, array('jquery'), '', true);
+		wp_enqueue_script( MSPB_SLUG . 'backend-script', MSPB_JS_URL . MSPB_SLUG . 'backend-script.min.js?v=' . MSPB_VERSION, array('jquery'), '', true);
 		*/
 	 	
 
@@ -111,9 +111,9 @@ class Loader {
 		// EXAMPLE
 
 		/*
-	 	wp_enqueue_script( WPPS_SLUG . 'ajax-script', WPPS_JS_URL . WPPS_SLUG . 'ajax-script.min.js', array('jquery'), '', false);
+	 	wp_enqueue_script( MSPB_SLUG . 'ajax-script', MSPB_JS_URL . MSPB_SLUG . 'ajax-script.min.js', array('jquery'), '', false);
 
-	 	wp_localize_script( WPPS_SLUG . 'ajax-script', 'YOUR_UNIQUE_AJAX_KEY', array(
+	 	wp_localize_script( MSPB_SLUG . 'ajax-script', 'YOUR_UNIQUE_AJAX_KEY', array(
     		'ajaxurl' => admin_url( 'admin-ajax.php' ),
     		'your_custom_data' => 'send this data with a ajax request',
     		)
@@ -126,7 +126,7 @@ class Loader {
 	*
 	*/
 	public function load_plugin_functions() {
-		require_once WPPS_FUNC_DIR . 'wpps-functions.php';
+		require_once MSPB_FUNC_DIR . 'mspb-functions.php';
 	}
 
 	/**

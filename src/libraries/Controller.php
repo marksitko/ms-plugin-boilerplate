@@ -1,8 +1,8 @@
 <?php
 
-namespace wpps\libraries;
-use wpps\libraries\Database;
-use wpps\models\Model;
+namespace mspb\libraries;
+use mspb\libraries\Database;
+use mspb\models\Model;
 
 class Controller {
 
@@ -34,28 +34,28 @@ class Controller {
 	*
 	*/
 	public function view($template, $data = array()) {
-		$this->lock_template( WPPS_PUBLIC_VIEW, $template, $data );
+		$this->lock_template( MSPB_PUBLIC_VIEW, $template, $data );
 	}
 
 	/**
 	*
 	*/
 	public function adminView($template, $data = array()) {
-		$this->lock_template( WPPS_ADMIN_VIEW, $template, $data );
+		$this->lock_template( MSPB_ADMIN_VIEW, $template, $data );
 	}
 
 	/**
 	*
 	*/
 	public function component($template, $data = array()) {
-		$this->lock_template( WPPS_COMPONENT_VIEW, $template, $data );
+		$this->lock_template( MSPB_COMPONENT_VIEW, $template, $data );
 	}
 
 	/**
 	*
 	*/
 	public function action($template, $data = array()) {
-		$this->lock_template( WPPS_FORM_ACTION, $template, $data );
+		$this->lock_template( MSPB_FORM_ACTION, $template, $data );
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 
-namespace wpps\libraries;
+namespace mspb\libraries;
 
 class Database {
 

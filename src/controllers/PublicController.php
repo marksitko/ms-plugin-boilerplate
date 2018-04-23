@@ -1,7 +1,7 @@
 <?php
 
-namespace wpps\controllers;
-use wpps\libraries\Controller;
+namespace mspb\controllers;
+use mspb\libraries\Controller;
 
 class PublicController extends Controller {
 

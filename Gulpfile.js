@@ -9,32 +9,15 @@ var concat = require('gulp-concat-util');
 var copy = require('gulp-copy');
 var clean = require('gulp-clean');
 var replace = require('gulp-replace');
-var gulpSequence = require('gulp-sequence');
 var runSequence = require('run-sequence');
 var merge = require('merge-stream');
-var defaultConfig = require('./config/config.default');
-var buildConfig = require('./config/config.build');
-var directoriesConfig = require('./config/config.directories');
-var settingsConfig = require('./config/config.settings');
+
+var config = require('./config/config');
 
 function capitalize(str) {
     return str.charAt(0).toUpperCase().concat(str.slice(1));
 }
 
-var config = {
-    'default': {
-        ...defaultConfig
-    },
-    'build': {
-        ...buildConfig
-    },
-    'directories': {
-        ...directoriesConfig
-    },
-    'settings': {
-        ...settingsConfig
-    }
-};
 
 var plugins = [
     autoprefixer({ browsers: ['> 1%', 'last 3 versions', 'iOS >= 8'] }),
@@ -68,6 +51,8 @@ gulp.task('uglify', () => {
 gulp.task('copy', () => {
     return gulp.src([
         './package.json',
+        './Gulpfile.js',
+        './*config/**',
         './*.php',
         './*src/**',
         './*assets/**',
@@ -76,7 +61,7 @@ gulp.task('copy', () => {
 });
 
 gulp.task('rename', () => {
-    var pluginFile = gulp.src(config.build.dest + config.default.pluginFile)
+    var bootstrapFile = gulp.src(config.build.dest + config.default.bootstrapFile)
         .pipe(clean())
         .pipe(rename({ basename: config.build.pluginName}))
         .pipe(gulp.dest(config.build.dest));
@@ -85,34 +70,43 @@ gulp.task('rename', () => {
         .pipe(clean())
         .pipe(rename({ basename: capitalize(config.build.pluginName) }))
         .pipe(gulp.dest(config.build.dest + 'src/'));
+
+    var pluginFunctions = gulp.src(config.build.dest + 'src/plugin-functions/' + config.default.plainPrefix + '-functions.php')
+        .pipe(clean())
+        .pipe(rename({ basename: config.build.plainPrefix + '-functions' }))
+        .pipe(gulp.dest(config.build.dest + 'src/plugin-functions/'));
     
-    var css = gulp.src(config.build.dest + config.directories.css + 'wpps_style.css')
+    var css = gulp.src(config.build.dest + config.directories.css + config.default.prefix + 'style.css')
         .pipe(clean())
         .pipe(rename({ basename: config.build.prefix + 'style' }))
         .pipe(gulp.dest(config.build.dest + config.directories.css));
     
-    var scripts = gulp.src(config.build.dest + config.directories.js + 'wpps_script.min.js')
+    var scripts = gulp.src(config.build.dest + config.directories.js + config.default.prefix + 'script.min.js')
         .pipe(clean())
         .pipe(rename({ basename: config.build.prefix + 'script', suffix: '.min' }))
         .pipe(gulp.dest(config.build.dest + config.directories.js));
     
-    return merge(pluginFile, pluginName, css, scripts);
+    return merge(bootstrapFile, pluginName, pluginFunctions, css, scripts);
 });
 
 gulp.task('replace', () => {
     return gulp.src(config.build.dest + '**/')
         .pipe(replace(config.default.plainPrefix, config.build.plainPrefix))
+        .pipe(replace(config.default.plainPrefix.toUpperCase(), config.build.plainPrefix.toUpperCase()))
         .pipe(replace(config.default.pluginName, capitalize(config.build.pluginName)))
+        .pipe(replace(config.default.bootstrapFile, config.build.pluginName + '.php'))
         .pipe(gulp.dest(config.build.dest))
 });
 
+gulp.task('default', ['sass', 'scripts', 'uglify']);
+
 gulp.task('build-plugin', () => {
     runSequence(
-        'sass',
-        'scripts',
-        'uglify',
         'copy',
         'rename',
-        'replace'
+        'replace',
+        'sass',
+        'scripts',
+        'uglify'
     );
 });
