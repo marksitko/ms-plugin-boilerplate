@@ -12,7 +12,7 @@ You can directly start to build your own WordPress Plugin with pre-configurated 
 
 Make sure you have installed `Node.js` and `Gulp` globaly.
 
-You need to have the ClassLoader included in your WordPress Installation.
+You need to have the [ClassLoader][1] included in your WordPress Installation.
 
 ## Installation
 
@@ -55,3 +55,5 @@ You have 2 automatically created entry points as shortcodes
 and 
 
 ``` [wpPluginNameAdminEntry] ```
+
+[1]: https://github.com/marksitko/wp-autoloader
