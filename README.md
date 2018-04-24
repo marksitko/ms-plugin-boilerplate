@@ -36,7 +36,9 @@ Please write your `pluginName` in camelCase style to load the classes within the
 
 To Create your own WordPress Plugin with MVC-Pattern just run after configurations
 
-```gulp build-plugin````
+```
+gulp build-plugin
+```
 
 It creates a folder with your Plugin name with all requirements an prepared `sass` and `javascript` build-processes.
 
