@@ -3,12 +3,13 @@
 Plugin Name: MSPluginBoilerplate
 Plugin URI: https://www.sitko-designing.de
 Description: MS Plugin Boilerplate is a MVC-Pattern boilerplate for WordPress-Plugin development. It requires a ClassLoader
-Version: 0.0.1
+Version: 1.0.0
 Author: Mark Sitko
 Author URI:  https://www.sitko-designing.de
-License: LGPL v3
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: mspb
-*/
+ */
 
 namespace mspb;
 

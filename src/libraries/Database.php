@@ -19,7 +19,7 @@ class Database {
 
 
 	/**
-	* übergibt verbindungsvariable von wordpress
+	* 
 	*/
 	protected function connect($connection) {
 		return $connection;

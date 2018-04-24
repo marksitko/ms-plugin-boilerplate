@@ -1,1 +1,1 @@
-var test = $('.footer');
+var pluginName = 'MS Plugin Boilerplate'

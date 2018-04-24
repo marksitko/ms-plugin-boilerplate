@@ -1,9 +1,10 @@
 {
-  "name": "wp-skeleton",
-  "version": "0.0.1",
+  "name": "ms-plugin-boilerplate",
+  "description": "The MS Plugin Boilerplate for WordPress brings you a Plugin Boilerplate in the popular MVC-Pattern.",
+  "version": "1.0.0",
   "author": {
     "name": "Mark Sitko",
-    "url": "http://sitko-designing.de"
+    "url": "https://sitko-designing.de"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",

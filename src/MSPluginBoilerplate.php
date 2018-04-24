@@ -8,24 +8,13 @@ use mspb\controllers\AjaxController;
 
 class MSPluginBoilerplate {
 
-	/**
-	* 
-	*/
 	private static $instance;
-
-	/**
-	* 
-	*/
 	private $loader;
-
-	/**
-	* 
-	*/
 	private $publicController;
 
 
 	/**
-	* 
+	* @return self
 	*/
 	public static function instance() {
 
@@ -41,8 +30,8 @@ class MSPluginBoilerplate {
 	}
 
 	/**
-	* 
-	*/
+	 * build the plugin 
+	 */
 	private function setup() {
 		$this->load_dependencies();
 		$this->define_hooks();
@@ -50,9 +39,6 @@ class MSPluginBoilerplate {
 		$this->run();
 	}
 
-	/**
-	* 
-	*/
 	private function load_dependencies() {
 		$this->loader = new Loader();
 		$this->publicController = new PublicController();
@@ -60,9 +46,6 @@ class MSPluginBoilerplate {
 		$this->ajaxController = new AjaxController();
 	}
 
-	/**
-	* definiert alle WordPress action hooks
-	*/
 	private function define_hooks() {
 
 		// init scripts & styles
@@ -161,8 +144,8 @@ class MSPluginBoilerplate {
 	}
 
 	/**
-	* 
-	*/
+	 * initialized all action hooks and filters and run the plugin
+	 */
 	private function run() {
 		$this->loader->run();
 	}

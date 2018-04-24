@@ -4,63 +4,45 @@ namespace mspb;
 
 class Loader {
 
-	/**
-	*
-	*/
 	protected $actions = array();
-
-	/**
-	*
-	*/
 	protected $filters = array();
-
-	/**
-	*
-	*/
 	protected $shortcodes = array();
 
 	/**
-	* fügt ein assoziatives array dem actions array hinzu
-	* dient als vorbereitung um es an den WordPress eigenen "add_action" hook zu übergeben und scripte zu inistalisieren
-	* @param string $hook enthält den namen des WordPress hooks
-	* @param object $obj enthält das Objekt(Klasse) inder die auszuführende callback funktion ist
-	* @param string $callback die callback-funktion die auf dem WordPress hook auszuführen ist
-	*/
+	 * @param string $hook name of the WordPress hook
+	 * @param object $obj class for callable
+	 * @param string $callback the callback function
+	 */
 	public function add_action( $hook, $obj, $callback ) {
 		$this->actions = $this->add( $this->actions, $hook, $obj, $callback );
 	}
 
 
 	/**
-	* fügt ein assoziatives array dem filters array hinzu
-	* dient als vorbereitung um es an den WordPress eigenen "add_filter" hook zu übergeben und  zu inistalisieren
-	* @param string $hook enthält den namen des WordPress hooks
-	* @param object $obj enthält das Objekt(Klasse) inder die auszuführende callback funktion ist
-	* @param string $callback die callback-funktion die auf dem WordPress hook auszuführen ist
-	*/
+	 * @param string $hook name of the WordPress hook
+	 * @param object $obj class for callable
+	 * @param string $callback the callback function
+	 */
 	public function add_filter( $hook, $obj, $callback ) {
 		$this->filters = $this->add( $this->filters, $hook, $obj, $callback );
 	}
 
 
 	/**
-	* fügt ein assoziatives array dem filters array hinzu
-	* fügt wordpress shortcodes hinzu
-	* @param string $hook enthält den namen des WordPress hooks
-	* @param object $obj enthält das Objekt(Klasse) inder die auszuführende callback funktion ist
-	* @param string $callback die callback-funktion die auf dem WordPress hook auszuführen ist
-	*/
+	 * @param string $hook name of the WordPress hook
+	 * @param object $obj class for callable
+	 * @param string $callback the callback function
+	 */
 	public function add_shortcode( $hook, $obj, $callback ) {
 		$this->shortcodes = $this->add( $this->shortcodes, $hook, $obj, $callback );
 	}
 
 	/**
-	* erstellt ein mehrdimensionales assoziatives array
-	* @param array $hooks das array inder alle vorgesehenen hooks gespeichert werden
-	* @param string $hook enthält den namen des WordPress hooks
-	* @param object $obj enthält das Objekt(Klasse) inder die auszuführende callback funktion ist
-	* @param string $callback die callback-funktion die auf dem WordPress hook auszuführen ist
-	*/
+	 * @param array $hooks 
+	 * @param string $hook name of the WordPress hook
+	 * @param object $obj class for callable
+	 * @param string $callback the callback function
+	 */
 	private function add( $hooks, $hook, $obj, $callback ) {
 
 		$hooks[] = array(
@@ -75,26 +57,23 @@ class Loader {
 
 
 	/**
-	* initialisiert alle styles und scripts die für das plugin notwending sind
+	* initialized all plugin styles and scripts
 	*/
 	public function init_scripts() {
-		// EXAMPLE 
 
 		/*
 		if( !wp_style_is( 'font-awesome', 'enqueued' ) ) {
 			wp_enqueue_style( 'font-awesome', MSPB_CSS_URL . 'font-awesome.min.css?v=' . MSPB_VERSION);
 		}
+		*/
 
 		wp_enqueue_style( MSPB_SLUG . 'style', MSPB_CSS_URL . MSPB_SLUG . 'style.css?v=' . MSPB_VERSION);
-		*/
 	}
 
 	/**
-	* initalisiert styles und scripts für den WP-Backend bereich
-	*/
+	 * initialized all plugin styles and scripts for the WordPress Backend
+	 */
 	public function init_backend_scripts() {
-
-		// EXAMPLE 
 
 		/*
 		wp_enqueue_script( MSPB_SLUG . 'backend-script', MSPB_JS_URL . MSPB_SLUG . 'backend-script.min.js?v=' . MSPB_VERSION, array('jquery'), '', true);
@@ -104,11 +83,9 @@ class Loader {
 	}
 
 	/**
-	* initalisiert ajax scripte
-	*/
+	 * initialized ajax scripts
+	 */
 	public function init_ajax_scripts() {
-
-		// EXAMPLE
 
 		/*
 	 	wp_enqueue_script( MSPB_SLUG . 'ajax-script', MSPB_JS_URL . MSPB_SLUG . 'ajax-script.min.js', array('jquery'), '', false);
@@ -122,16 +99,13 @@ class Loader {
 
 	}
 
-	/**
-	*
-	*/
 	public function load_plugin_functions() {
 		require_once MSPB_FUNC_DIR . 'mspb-functions.php';
 	}
 
 	/**
-	* durchläuft das actions- und filters array und initalisiert alle add_action und add_filter hooks
-	*/
+	 * initialized all action hooks and filters
+	 */
 	public function run() {
 
 		foreach ($this->actions as $hook) {

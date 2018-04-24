@@ -1,21 +1,55 @@
-# WordPress Skeleton Plugin in MVC-Pattern
+# WordPress Plugin Boilterplate in MVC-Pattern
 
-## Setup
-- [1.0] **Rename Directory**
-    - Rename the directory **wp-plugin-skeleton** into **your-plugin**
+## What do you offer this Boilerplate?
 
-- [2.0] **Rename Pluginfile**
-    - Rename the Pluginfile in your the root Plugin directory.
-    - **wp-plugin-skeleton.php** into **your-plugin.php**
+The `MS Plugin Boilerplate` for WordPress brings you a Plugin Boilerplate in the popular MVC-Pattern. 
 
-- [3.0] **Skeleton.php**
-    - Go to **./src/** and rename **Skeleton.php** into **YourPlugin.php** with capital first letter in CamelCase Style
-    - Open the File and rename the class name **Skeleton** into **YourPlugin**
-    - Rename **instance of Skeleton** in line 32 into **instance of YourPlugin**
+Seperate you businesslogic from you view and split your templates in small components for optimal reusing.
 
-- [4.0] **Define your Plugin-Prefix**
-    - Define your Plugin-Prefix and search in your plugin folder with your IDE for **wpps** and replace it with your prefix (i.e. **yp** for your-plugin). Make sure you search case sensitive to find the right prefixes.
-    - Replace all const's. Search in your plugin folder with your IDE for **WPPS** and replace it with your prefix (i.e. **YP** for your plugin). Make sure you search case sensitive and all uppercase to only find the consts
+You can directly start to build your own WordPress Plugin with pre-configurated `sass` and `javascript` build-processes.
 
-- [5.0] **Last look into you Pluginfile**
-    - Open your root Pluginfile and make sure the namespaces and the **Skeleton** class is renamed into your custom settings
+## Pre-Requirements
+
+Make sure you have installed `Node.js` and `Gulp` globaly.
+
+You need to have the ClassLoader included in your WordPress Installation.
+
+## Installation
+
+Open the Repository directorie and run
+
+```
+npm install
+```
+
+to install all requirements from the `package.json` file.
+
+## Configuration
+
+To config your own plugin open `./config/config.build.js` and adjust the `plainPrefix` and `pluginName` property.
+
+Please let the `plainPrefix` without any hyphens or others similars.
+
+Please write your `pluginName` in camelCase style to load the classes within the required ClassLoader correctly.
+
+## BuildProcess
+
+To Create your own WordPress Plugin with MVC-Pattern just run after configurations
+
+```gulp build-plugin````
+
+It creates a folder with your Plugin name with all requirements an prepared `sass` and `javascript` build-processes.
+
+## Usage
+
+If the build-process finished successfully, you can copy your new created plugin folder into your `WordPress Plugin directory`.
+
+Now activate your Plugin in the WordPress Backend.
+
+You have 2 automatically created entry points as shortcodes
+
+``` [wpPluginNameEntry] ```
+
+and 
+
+``` [wpPluginNameAdminEntry] ```

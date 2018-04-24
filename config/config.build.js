@@ -1,9 +1,10 @@
+// write your pluginName in camelCase style
 const build = {
-    'plainPrefix': 'ka',
+    'plainPrefix': 'pn',
     get prefix() {
         return `${this.plainPrefix}_`
     },
-    'pluginName': 'kennzahlenAdmin',
+    'pluginName': 'pluginName',
     get dest() {
         return `./${this.pluginName}/`
     },

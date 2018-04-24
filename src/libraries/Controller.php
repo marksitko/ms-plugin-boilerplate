@@ -98,7 +98,7 @@ class Controller {
 	*
 	*/
 	private function couldnt_found_template() {
-		die('View not exist');
+		die('View does not exist');
 	}
 
 }
