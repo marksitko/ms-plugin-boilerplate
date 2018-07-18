@@ -6,23 +6,25 @@ var autoprefixer = require('autoprefixer');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat-util');
-var copy = require('gulp-copy');
+var runSequence = require('run-sequence');
+/* start-dev-block */
 var clean = require('gulp-clean');
 var replace = require('gulp-replace');
-var runSequence = require('run-sequence');
 var merge = require('merge-stream');
-
+var stripCode = require('gulp-strip-code');
+var deleteLines = require('gulp-delete-lines');
+/* end-dev-block */
 var config = require('./config/config');
-
-function capitalize(str) {
-    return str.charAt(0).toUpperCase().concat(str.slice(1));
-}
-
-
 var plugins = [
     autoprefixer({ browsers: ['> 1%', 'last 3 versions', 'iOS >= 8'] }),
     cssnano()
 ];
+
+/* start-dev-block */
+function capitalize(str) {
+    return str.charAt(0).toUpperCase().concat(str.slice(1));
+}
+/* end-dev-block */
 
 gulp.task('sass', () => {
     return gulp.src(config.directories.sass + 'style.scss')
@@ -33,7 +35,11 @@ gulp.task('sass', () => {
 });
 
 gulp.task('scripts', () => {
-    return gulp.src([config.directories.jsSrc + '_variables.js', config.directories.jsSrc + '_functions.js', config.directories.jsSrc + '_scripts.js'])
+    return gulp.src([
+            config.directories.jsSrc + '_variables.js', 
+            config.directories.jsSrc + '_functions.js', 
+            config.directories.jsSrc + '_scripts.js'
+        ])
         .pipe(concat('build.js'))
         .pipe(concat.header(config.settings.jsHeader))
         .pipe(concat.footer(config.settings.jsFooter))
@@ -47,7 +53,14 @@ gulp.task('uglify', () => {
         .pipe(gulp.dest(config.directories.js))
 });
 
+gulp.task('watch', () => {
+    gulp.watch([
+        config.directories.jsSrc + '**', 
+        config.directories.sass + '**'
+    ], ['default'])
+});
 
+/* start-dev-block */
 gulp.task('copy', () => {
     return gulp.src([
         './package.json',
@@ -98,7 +111,30 @@ gulp.task('replace', () => {
         .pipe(gulp.dest(config.build.dest))
 });
 
-gulp.task('default', ['sass', 'scripts', 'uglify']);
+gulp.task('cleanupDevelopmentFiles', () => {
+    var cleanupGulpfile = gulp.src(config.build.dest + 'Gulpfile.js')
+        .pipe(stripCode(config.settings.stripCode))
+        .pipe(gulp.dest(config.build.dest));
+    
+    var cleanupConfig = gulp.src(config.build.dest + 'config/config.js')
+        .pipe(stripCode(config.settings.stripCode))
+        .pipe(gulp.dest(config.build.dest + 'config/'));
+    
+    var removeBuildConfig = gulp.src(config.build.dest + 'config/config.build.js')
+        .pipe(clean());
+
+    return merge(cleanupGulpfile, cleanupConfig, removeBuildConfig);
+})
+
+gulp.task('cleanupPackageJson', () => {
+    gulp.src(config.build.dest + 'package.json')
+        .pipe(deleteLines({
+            'filters': [
+                /clean|replace|merge-stream|strip-code|delete-lines/i,
+            ]
+        }))
+        .pipe(gulp.dest(config.build.dest));
+});
 
 gulp.task('build-plugin', () => {
     runSequence(
@@ -107,6 +143,17 @@ gulp.task('build-plugin', () => {
         'replace',
         'sass',
         'scripts',
-        'uglify'
+        'uglify',
+        'cleanupDevelopmentFiles',
+        'cleanupPackageJson'
+    );
+});
+/* end-dev-block */
+
+gulp.task('default', () => {
+    runSequence(
+        'sass',
+        'scripts',
+        'uglify',
     );
 });

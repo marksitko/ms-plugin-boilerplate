@@ -1,7 +1,7 @@
 {
   "name": "ms-plugin-boilerplate",
   "description": "The MS Plugin Boilerplate for WordPress brings you a Plugin Boilerplate in the popular MVC-Pattern.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "GPLv3",
   "scripts": {
     "start": "gulp",
@@ -17,13 +17,13 @@
     "gulp": "^3.9.1",
     "gulp-clean": "^0.4.0",
     "gulp-concat-util": "^0.5.5",
-    "gulp-copy": "^1.1.0",
+    "gulp-delete-lines": "0.0.7",
     "gulp-postcss": "^7.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
     "gulp-sass": "^4.0.1",
+    "gulp-strip-code": "^0.1.4",
     "gulp-uglify": "^3.0.0",
-    "livereload-js": "^2.3.0",
     "merge-stream": "^1.0.1",
     "run-sequence": "^2.2.1"
   },

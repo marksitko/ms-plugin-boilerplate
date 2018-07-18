@@ -58,8 +58,8 @@ class MSPluginBoilerplate {
 		$this->loader->add_action( 'wp_ajax_yourAjaxFunc', $this->ajaxController, 'yourAjaxFunc' );
 
 		// init shortcodes
-		$this->loader->add_shortcode( 'wpMSPluginBoilerplateEntry', $this->publicController, 'entry' );
-		$this->loader->add_shortcode( 'wpMSPluginBoilerplateAdminEntry', $this->adminController, 'adminEntry' );
+		$this->loader->add_shortcode( 'mspbMSPluginBoilerplateEntry', $this->publicController, 'entry' );
+		$this->loader->add_shortcode( 'mspbMSPluginBoilerplateAdminEntry', $this->adminController, 'adminEntry' );
 	}
 
 	/**
