@@ -1,0 +1,1 @@
+<p>This is a admin Component</p>

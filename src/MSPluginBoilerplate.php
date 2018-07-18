@@ -16,42 +16,38 @@ class MSPluginBoilerplate {
 	/**
 	* @return self
 	*/
-	public static function instance() {
-
+	public static function instance() 
+	{
 		if( !self::$instance  && !self::$instance instanceof MSPluginBoilerplate) {
-
 			self::$instance = new static();
 			self::$instance->setup();
-
 		}
-
 		return self::$instance;
-
 	}
 
 	/**
 	 * build the plugin 
 	 */
 	private function setup() {
-		$this->load_dependencies();
-		$this->define_hooks();
-		$this->define_constants();
+		$this->loadDependencies();
+		$this->defineHooks();
+		$this->defineConstans();
 		$this->run();
 	}
 
-	private function load_dependencies() {
+	private function loadDependencies() {
 		$this->loader = new Loader();
 		$this->publicController = new PublicController();
 		$this->adminController = new AdminController();
 		$this->ajaxController = new AjaxController();
 	}
 
-	private function define_hooks() {
+	private function defineHooks() {
 
 		// init scripts & styles
-		$this->loader->add_action( 'wp_enqueue_scripts', $this->loader, 'init_scripts' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $this->loader, 'init_backend_scripts' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $this->loader, 'init_ajax_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $this->loader, 'initScripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $this->loader, 'initBackendScripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $this->loader, 'initAjaxScripts' );
 
 		// init ajax functions
 		$this->loader->add_action( 'wp_ajax_nopriv_yourAjaxFunc', $this->ajaxController, 'yourAjaxFunc' );
@@ -69,7 +65,7 @@ class MSPluginBoilerplate {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	private function define_constants() {
+	private function defineConstans() {
 
 		// Plugin version
 		if ( ! defined( 'MSPB_VERSION' ) ) {

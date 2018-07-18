@@ -59,7 +59,7 @@ class Loader {
 	/**
 	* initialized all plugin styles and scripts
 	*/
-	public function init_scripts() {
+	public function initScripts() {
 
 		/*
 		if( !wp_style_is( 'font-awesome', 'enqueued' ) ) {
@@ -73,7 +73,7 @@ class Loader {
 	/**
 	 * initialized all plugin styles and scripts for the WordPress Backend
 	 */
-	public function init_backend_scripts() {
+	public function initBackendScripts() {
 
 		/*
 		wp_enqueue_script( MSPB_SLUG . 'backend-script', MSPB_JS_URL . MSPB_SLUG . 'backend-script.min.js?v=' . MSPB_VERSION, array('jquery'), '', true);
@@ -85,7 +85,7 @@ class Loader {
 	/**
 	 * initialized ajax scripts
 	 */
-	public function init_ajax_scripts() {
+	public function initAjaxScripts() {
 
 		/*
 	 	wp_enqueue_script( MSPB_SLUG . 'ajax-script', MSPB_JS_URL . MSPB_SLUG . 'ajax-script.min.js', array('jquery'), '', false);
@@ -99,7 +99,7 @@ class Loader {
 
 	}
 
-	public function load_plugin_functions() {
+	public function loadPluginFunctions() {
 		require_once MSPB_FUNC_DIR . 'mspb-functions.php';
 	}
 
@@ -120,7 +120,7 @@ class Loader {
 			add_shortcode( $hook['hook'], array( $hook['obj'], $hook['callback'] ) );
 		}
 
-		$this->load_plugin_functions();
+		$this->loadPluginFunctions();
 
 	}
 

@@ -2,4 +2,4 @@
 <br>
 From data-array: <b><?php echo $data['say']; ?></b>
 <br>
-<?php $this->component('component'); ?>
+<?php $this->component('public/component'); ?>
