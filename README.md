@@ -50,10 +50,10 @@ Now activate your Plugin in the WordPress Backend.
 
 You have 2 automatically created entry points as shortcodes
 
-``` [wpPluginNameEntry] ```
+``` [prefixPluginNameEntry] ```
 
 and 
 
-``` [wpPluginNameAdminEntry] ```
+``` [prefixPluginNameAdminEntry] ```
 
 [1]: https://github.com/marksitko/wp-autoloader
