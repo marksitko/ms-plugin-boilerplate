@@ -43,8 +43,8 @@ class Loader {
 	 * @param object $obj class for callable
 	 * @param string $callback the callback function
 	 */
-	private function add( $hooks, $hook, $obj, $callback ) {
-
+	private function add( $hooks, $hook, $obj, $callback ) 
+	{
 		$hooks[] = array(
 			'hook'      => $hook,
 			'obj' => $obj,
@@ -52,15 +52,14 @@ class Loader {
 		);
 
 		return $hooks;
-
 	}
 
 
 	/**
 	* initialized all plugin styles and scripts
 	*/
-	public function initScripts() {
-
+	public function initScripts() 
+	{
 		/*
 		if( !wp_style_is( 'font-awesome', 'enqueued' ) ) {
 			wp_enqueue_style( 'font-awesome', MSPB_CSS_URL . 'font-awesome.min.css?v=' . MSPB_VERSION);
@@ -68,46 +67,45 @@ class Loader {
 		*/
 
 		wp_enqueue_style( MSPB_SLUG . 'style', MSPB_CSS_URL . MSPB_SLUG . 'style.css?v=' . MSPB_VERSION);
+		wp_enqueue_script(MSPB_SLUG . 'script', MSPB_JS_URL . MSPB_SLUG . 'script.min.js?v=' . MSPB_VERSION, array('jquery', 'jquery-ui-datepicker', 'jquery-ui-slider'), '', true);
 	}
 
 	/**
 	 * initialized all plugin styles and scripts for the WordPress Backend
 	 */
-	public function initBackendScripts() {
-
+	public function initBackendScripts() 
+	{
 		/*
-		wp_enqueue_script( MSPB_SLUG . 'backend-script', MSPB_JS_URL . MSPB_SLUG . 'backend-script.min.js?v=' . MSPB_VERSION, array('jquery'), '', true);
+		wp_enqueue_script( MSPB_SLUG . 'backend', MSPB_JS_URL . MSPB_SLUG . 'backend.min.js?v=' . MSPB_VERSION, array('jquery'), '', true);
 		*/
-	 	
-
 	}
 
 	/**
 	 * initialized ajax scripts
 	 */
-	public function initAjaxScripts() {
-
+	public function initAjaxScripts() 
+	{
 		/*
-	 	wp_enqueue_script( MSPB_SLUG . 'ajax-script', MSPB_JS_URL . MSPB_SLUG . 'ajax-script.min.js', array('jquery'), '', false);
+	 	wp_enqueue_script( MSPB_SLUG . 'ajax', MSPB_JS_URL . MSPB_SLUG . 'ajax.min.js', array('jquery'), '', false);
 
-	 	wp_localize_script( MSPB_SLUG . 'ajax-script', 'YOUR_UNIQUE_AJAX_KEY', array(
+	 	wp_localize_script( MSPB_SLUG . 'ajax', 'YOUR_UNIQUE_AJAX_KEY', array(
     		'ajaxurl' => admin_url( 'admin-ajax.php' ),
     		'your_custom_data' => 'send this data with a ajax request',
     		)
 		);
 		*/
-
 	}
 
-	public function loadPluginFunctions() {
+	public function loadPluginFunctions() 
+	{
 		require_once MSPB_FUNC_DIR . 'mspb-functions.php';
 	}
 
 	/**
 	 * initialized all action hooks and filters
 	 */
-	public function run() {
-
+	public function run() 
+	{
 		foreach ($this->actions as $hook) {
 			add_action( $hook['hook'], array( $hook['obj'], $hook['callback'] ) );
 		}
@@ -121,7 +119,6 @@ class Loader {
 		}
 
 		$this->loadPluginFunctions();
-
 	}
 
 }

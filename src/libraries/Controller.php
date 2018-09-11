@@ -8,7 +8,8 @@ class Controller {
 	public $db;
 	public $urlParam;
 
-	public function __construct() {
+	public function __construct() 
+	{
 		$this->db = DB::instance();
 		$this->urlParam = $_GET["site"];
 	}
@@ -29,8 +30,8 @@ class Controller {
 		$this->lock_template( MSPB_FORM_ACTION, $template, $data );
 	}
 
-	public function getTemplate($class) {
-
+	public function getTemplate($class)
+	{
 		$param = $this->getUrlParam();
 
 		if(method_exists( $class, $param ) ) {
@@ -38,10 +39,10 @@ class Controller {
 		} else {
 			$this->couldnt_found_template();
 		}
-
 	}
 
-	public function lock_template( $dir, $template, $data = array() )  {
+	public function lock_template( $dir, $template, $data = array() )  
+	{
 		if( file_exists( $dir . $template . ".php" ) ) {
 			include $dir . $template . ".php";
 		} else {
@@ -49,7 +50,8 @@ class Controller {
 		}
 	}
 
-	public function getUrlParam() {
+	public function getUrlParam() 
+	{
 		if( !isset($this->urlParam) ) {
 			$this->urlParam = 'admin';
 		} 

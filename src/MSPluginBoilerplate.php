@@ -28,22 +28,24 @@ class MSPluginBoilerplate {
 	/**
 	 * build the plugin 
 	 */
-	private function setup() {
+	private function setup() 
+	{
 		$this->loadDependencies();
 		$this->defineHooks();
 		$this->defineConstans();
 		$this->run();
 	}
 
-	private function loadDependencies() {
+	private function loadDependencies() 
+	{
 		$this->loader = new Loader();
 		$this->publicController = new PublicController();
 		$this->adminController = new AdminController();
 		$this->ajaxController = new AjaxController();
 	}
 
-	private function defineHooks() {
-
+	private function defineHooks() 
+	{
 		// init scripts & styles
 		$this->loader->add_action( 'wp_enqueue_scripts', $this->loader, 'initScripts' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $this->loader, 'initBackendScripts' );
@@ -65,8 +67,8 @@ class MSPluginBoilerplate {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	private function defineConstans() {
-
+	private function defineConstans() 
+	{
 		// Plugin version
 		if ( ! defined( 'MSPB_VERSION' ) ) {
 			define( 'MSPB_VERSION', '0.0.1' );
@@ -142,7 +144,8 @@ class MSPluginBoilerplate {
 	/**
 	 * initialized all action hooks and filters and run the plugin
 	 */
-	private function run() {
+	private function run() 
+	{
 		$this->loader->run();
 	}
 

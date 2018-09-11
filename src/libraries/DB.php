@@ -32,12 +32,12 @@ class DB
 		self::$connection = $connection;
 	}
 
-	public static function select($query, $output = "OBJECT") 
+	public static function select($query, $output = 'ARRAY_A') 
 	{
 		return self::$connection->get_results($query, $output);
 	}
 
-	public static function selectRow($query, $output = "OBJECT")
+	public static function selectRow($query, $output = 'ARRAY_A')
 	{
 		return self::$connection->get_row($query, $output);
 	}

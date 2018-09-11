@@ -4,7 +4,8 @@ const configDefault = {
             return `${this.plainPrefix}_`
         },
         'pluginName': 'MSPluginBoilerplate',
-        'bootstrapFile': 'ms-plugin-boilerplate.php'
+        'bootstrapFile': 'ms-plugin-boilerplate.php',
+        'devUrl': 'http://localhost',
     };
 
 module.exports = configDefault;

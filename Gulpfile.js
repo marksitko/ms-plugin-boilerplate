@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
 var postcss = require('gulp-postcss');
 var cssnano = require('cssnano')
@@ -17,7 +18,7 @@ var deleteLines = require('gulp-delete-lines');
 var config = require('./config/config');
 var plugins = [
     autoprefixer({ browsers: ['> 1%', 'last 3 versions', 'iOS >= 8'] }),
-    cssnano()
+    cssnano({ zindex: false })
 ];
 
 /* start-dev-block */
@@ -25,6 +26,12 @@ function capitalize(str) {
     return str.charAt(0).toUpperCase().concat(str.slice(1));
 }
 /* end-dev-block */
+
+gulp.task('browser-sync', function () {
+    browserSync.init({
+        proxy: config.default.devUrl
+    });
+});
 
 gulp.task('sass', () => {
     return gulp.src(config.directories.sass + 'style.scss')
@@ -34,22 +41,62 @@ gulp.task('sass', () => {
         .pipe(gulp.dest(config.directories.css))
 });
 
-gulp.task('scripts', () => {
+gulp.task('build-public-script', () => {
     return gulp.src([
-            config.directories.jsSrc + '_variables.js', 
-            config.directories.jsSrc + '_functions.js', 
-            config.directories.jsSrc + '_scripts.js'
-        ])
-        .pipe(concat('build.js'))
+        config.directories.jsPublicSrc + '_variables.js',
+        config.directories.jsPublicSrc + '_scripts.js',
+        config.directories.jsPublicSrc + '_functions.js',
+        config.directories.jsSharedSrc + '_shared_functions.js'
+    ])
+        .pipe(concat('public-build.js'))
         .pipe(concat.header(config.settings.jsHeader))
         .pipe(concat.footer(config.settings.jsFooter))
         .pipe(gulp.dest(config.directories.jsSrc))
 });
 
-gulp.task('uglify', () => {
-    return gulp.src(config.directories.jsSrc + 'build.js')
+gulp.task('build-ajax-script', () => {
+    return gulp.src([
+        config.directories.ajaxSrc + '_variables.js',
+        config.directories.ajaxSrc + '_script.js',
+        config.directories.ajaxSrc + '_functions.js',
+        config.directories.jsSharedSrc + '_shared_functions.js'
+    ])
+        .pipe(concat('ajax-build.js'))
+        .pipe(concat.header(config.settings.jsHeader))
+        .pipe(concat.footer(config.settings.jsFooter))
+        .pipe(gulp.dest(config.directories.jsSrc))
+});
+
+gulp.task('build-backend-script', () => {
+    return gulp.src([
+        config.directories.jsBackendSrc + '_variables.js',
+        config.directories.jsBackendSrc + '_script.js',
+        config.directories.jsBackendSrc + '_functions.js'
+    ])
+        .pipe(concat('backend-build.js'))
+        .pipe(concat.header(config.settings.jsHeader))
+        .pipe(concat.footer(config.settings.jsFooter))
+        .pipe(gulp.dest(config.directories.jsSrc))
+});
+
+gulp.task('uglify-public-script', () => {
+    return gulp.src(config.directories.jsSrc + 'public-build.js')
         .pipe(uglify())
         .pipe(rename({ basename: config.default.prefix + 'script', suffix: '.min' }))
+        .pipe(gulp.dest(config.directories.js))
+});
+
+gulp.task('uglify-ajax-script', () => {
+    return gulp.src(config.directories.jsSrc + 'ajax-build.js')
+        .pipe(uglify())
+        .pipe(rename({ basename: config.default.prefix + 'ajax', suffix: '.min' }))
+        .pipe(gulp.dest(config.directories.js))
+});
+
+gulp.task('uglify-backend-script', () => {
+    return gulp.src(config.directories.jsSrc + 'backend-build.js')
+        .pipe(uglify())
+        .pipe(rename({ basename: config.default.prefix + 'backend', suffix: '.min' }))
         .pipe(gulp.dest(config.directories.js))
 });
 
@@ -57,8 +104,10 @@ gulp.task('watch', () => {
     gulp.watch([
         config.directories.jsSrc + '**', 
         config.directories.sass + '**'
-    ], ['default'])
+    ], ['default']).on('change', browserSync.reload)
 });
+
+gulp.task('serve', ['browser-sync', 'watch']);
 
 /* start-dev-block */
 gulp.task('copy', () => {
@@ -94,12 +143,22 @@ gulp.task('rename', () => {
         .pipe(rename({ basename: config.build.prefix + 'style' }))
         .pipe(gulp.dest(config.build.dest + config.directories.css));
     
-    var scripts = gulp.src(config.build.dest + config.directories.js + config.default.prefix + 'script.min.js')
+    var publicScript = gulp.src(config.build.dest + config.directories.js + config.default.prefix + 'script.min.js')
         .pipe(clean())
         .pipe(rename({ basename: config.build.prefix + 'script', suffix: '.min' }))
         .pipe(gulp.dest(config.build.dest + config.directories.js));
     
-    return merge(bootstrapFile, pluginName, pluginFunctions, css, scripts);
+    var ajaxScript = gulp.src(config.build.dest + config.directories.js + config.default.prefix + 'ajax.min.js')
+        .pipe(clean())
+        .pipe(rename({ basename: config.build.prefix + 'ajax', suffix: '.min' }))
+        .pipe(gulp.dest(config.build.dest + config.directories.js));
+    
+    var backendScript = gulp.src(config.build.dest + config.directories.js + config.default.prefix + 'backend.min.js')
+        .pipe(clean())
+        .pipe(rename({ basename: config.build.prefix + 'backend', suffix: '.min' }))
+        .pipe(gulp.dest(config.build.dest + config.directories.js));
+    
+    return merge(bootstrapFile, pluginName, pluginFunctions, css, publicScript, ajaxScript, backendScript);
 });
 
 gulp.task('replace', () => {
@@ -142,8 +201,12 @@ gulp.task('build-plugin', () => {
         'rename',
         'replace',
         'sass',
-        'scripts',
-        'uglify',
+        'build-public-script',
+        'build-ajax-script',
+        'build-backend-script',
+        'uglify-public-script',
+        'uglify-ajax-script',
+        'uglify-backend-script',
         'cleanupDevelopmentFiles',
         'cleanupPackageJson'
     );
@@ -153,7 +216,11 @@ gulp.task('build-plugin', () => {
 gulp.task('default', () => {
     runSequence(
         'sass',
-        'scripts',
-        'uglify',
+        'build-public-script',
+        'build-ajax-script',
+        'build-backend-script',
+        'uglify-public-script',
+        'uglify-ajax-script',
+        'uglify-backend-script',
     );
 });
