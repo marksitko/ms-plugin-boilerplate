@@ -102,7 +102,7 @@ gulp.task('uglify-backend-script', () => {
 
 gulp.task('watch', () => {
     gulp.watch([
-        config.directories.jsSrc + '**', 
+        config.directories.jsSrc + '*/**', 
         config.directories.sass + '**'
     ], ['default']).on('change', browserSync.reload)
 });
